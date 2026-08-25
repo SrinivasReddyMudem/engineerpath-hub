@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find Engineering Opportunities — EngineerPath.hub</title>
+<meta name="description" content="EngineerPath doesn't try to replace LinkedIn, StepStone or Indeed — we help you use them better, plus a small curated feed of selected engineering roles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  .search-guide { border-collapse: collapse; width: 100%; font-size: 0.9rem; margin-top: 0.6rem; }
+  .search-guide th, .search-guide td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .search-guide thead th { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); }
+  .search-guide code { font-family: "IBM Plex Mono", monospace; font-size: 0.85em; background: var(--surface-2); padding: 0.1em 0.35em; border-radius: 3px; }
+  .filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1.2rem 0; }
+  .filters input, .filters select { font-family: "Inter", sans-serif; font-size: 0.9rem; padding: 0.55rem 0.75rem; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+  .filters input { flex: 1 1 200px; }
+  .tracker-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; }
+  .tracker-table th, .tracker-table td { padding: 0.5rem; border-bottom: 1px solid var(--border); text-align: left; }
+  .tracker-table input, .tracker-table select { width: 100%; font-family: inherit; font-size: 0.88rem; padding: 0.4rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+  .tracker-table .rm { background: none; border: none; color: #a5462b; cursor: pointer; font-size: 1rem; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="../" class="brand">EngineerPath<span class="dot">.hub</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav">
+      <a href="../learn/">Learn</a>
+      <a href="../interview/">Interview</a>
+      <a href="../career/">Career</a>
+      <a href="../jobs/">Jobs</a>
+      <a href="../tools/readiness/">Tools</a>
+      <a href="../germany/">Germany</a>
+      <a href="../ask/" class="nav-cta">Ask EngineerPath</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-top:3rem; padding-bottom:1.5rem;">
+    <div class="wrap-narrow">
+      <span class="eyebrow">Stage 04 · Find</span>
+      <h1 style="font-size:clamp(1.9rem,4.5vw,2.6rem);">Find Engineering Opportunities</h1>
+      <p class="dek" style="margin-left:0; margin-right:0;">EngineerPath doesn't try to replace LinkedIn, StepStone, or Indeed. We help you use them better.</p>
+    </div>
+  </section>
+
+  <section class="section reveal" id="search-guide">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Search these platforms well</h2>
+        <p>Real strategies, not just links.</p>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="search-guide">
+          <thead><tr><th>Platform</th><th>What to search</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LinkedIn</strong></td><td><code>"Software Engineer" Germany</code>, <code>"DevOps Engineer" Germany</code></td><td>Broad IT &amp; engineering, Easy Apply filter</td></tr>
+            <tr><td><strong>StepStone</strong></td><td>Role + city, e.g. <code>DevOps Engineer</code> + <code>München</code>; also try German terms like <code>Softwareentwickler</code></td><td>The German market specifically</td></tr>
+            <tr><td><strong>XING</strong></td><td>Same role terms as LinkedIn — skews toward the German professional network</td><td>Companies less active on LinkedIn</td></tr>
+            <tr><td><strong>Indeed</strong></td><td><code>Cloud Engineer Germany</code>, filter by date posted and remote</td><td>Broad coverage, fast filtering</td></tr>
+            <tr><td><strong>Arbeitnow</strong></td><td>Filter by visa sponsorship / English-speaking tags</td><td>International-friendly listings</td></tr>
+            <tr><td><strong>Company career pages</strong></td><td>Company name + "careers" — once you know who you want to work for</td><td>Direct applications, no aggregator noise</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">EngineerPath Jobs</span>
+        <h2>A small, honestly curated feed</h2>
+        <p>Collected automatically from supported company career systems — not every job, everywhere.</p>
+      </div>
+      <div class="filters">
+        <input type="text" id="f-keyword" placeholder="Search title or company...">
+        <select id="f-category"><option value="All">All categories</option></select>
+        <select id="f-experience">
+          <option value="All">All experience levels</option>
+          <option>Internship / Student</option>
+          <option>Entry-level (0-2 years)</option>
+          <option>Mid-level (3-5 years)</option>
+          <option>Senior (6+ years)</option>
+        </select>
+      </div>
+      <div id="job-results" class="card-grid cols-4">
+        <p style="grid-column:1/-1; color:var(--text-soft);">Loading...</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="tracker">
+    <div class="wrap-narrow">
+      <div class="section-head" style="text-align:left;">
+        <h2>My Applications</h2>
+        <p>Stored only in this browser (localStorage) — nothing is sent anywhere.</p>
+      </div>
+      <table class="tracker-table">
+        <thead><tr><th>Company</th><th>Role</th><th>Status</th><th></th></tr></thead>
+        <tbody id="tracker-rows"></tbody>
+      </table>
+      <button class="btn btn-outline" id="tracker-add" style="margin-top:0.9rem;">+ Add application</button>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="wrap-narrow" style="text-align:center; padding:1.6rem; border:1px dashed var(--border-strong); border-radius:var(--radius-lg);">
+      <p style="color:var(--text-soft); font-size:0.9rem; margin:0 0 0.8rem;">Found something worth applying to?</p>
+      <a href="../interview/" class="btn btn-primary">Prepare for the interview →</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>EngineerPath.hub</h5>
+        <p style="color:var(--text-soft); font-size:0.88rem; max-width:32ch;">Learn. Build. Prepare. Grow.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <a href="../learn/">Learn</a>
+        <a href="../interview/">Interview</a>
+        <a href="../career/">Career</a>
+      </div>
+      <div class="footer-col">
+        <h5>More</h5>
+        <a href="../tools/readiness/">Tools</a>
+        <a href="../germany/">Germany</a>
+        <a href="../ask/">Ask EngineerPath</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="../legal/privacy/">Privacy</a>
+        <a href="../legal/impressum/">Impressum</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© EngineerPath.hub — built for engineers.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/render-jobs.js"></script>
+<script src="../assets/js/tracker.js"></script>
+<script>
+  let currentFilters = { category: "All", keyword: "", experience: "All" };
+  function refresh() {
+    renderJobList({ containerId: "job-results", dataPath: "../data/jobs.json", ...currentFilters, emptyMessage: "No roles match those filters right now — try widening them, or use the search guide above." });
+  }
+  getAllCategories("../data/jobs.json").then((cats) => {
+    const select = document.getElementById("f-category");
+    cats.forEach((c) => { const opt = document.createElement("option"); opt.value = c; opt.textContent = c; select.appendChild(opt); });
+    refresh();
+  });
+  document.getElementById("f-keyword").addEventListener("input", (e) => { currentFilters.keyword = e.target.value; refresh(); });
+  document.getElementById("f-category").addEventListener("change", (e) => { currentFilters.category = e.target.value; refresh(); });
+  document.getElementById("f-experience").addEventListener("change", (e) => { currentFilters.experience = e.target.value; refresh(); });
+  initTracker("tracker-rows", "tracker-add");
+</script>
+</body>
+</html>

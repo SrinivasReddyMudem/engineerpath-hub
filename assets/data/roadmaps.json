@@ -1,0 +1,114 @@
+{
+  "software-engineer": {
+    "title": "Software Engineer",
+    "icon": "💻",
+    "tagline": "Build production-ready software.",
+    "status": "coming-soon",
+    "skillChainPreview": ["Programming", "Git", "APIs", "Databases", "System Design"]
+  },
+  "devops": {
+    "title": "DevOps Engineer",
+    "icon": "☁️",
+    "tagline": "Your path from zero → job ready.",
+    "status": "live",
+    "tracks": [
+      {
+        "id": "linux",
+        "title": "Linux",
+        "what": "The operating system layer everything else runs on.",
+        "why": "Shell comfort, file permissions, and process management are assumed in every task ahead.",
+        "learn": ["Shell / bash basics", "File permissions", "Process management", "Package managers"]
+      },
+      {
+        "id": "git",
+        "title": "Git",
+        "what": "Version control for infrastructure and application code alike.",
+        "why": "Every DevOps workflow assumes fluent Git — branching, merging, and history.",
+        "learn": ["Branching & merging", "Commits & history", "Remotes", "Resolving conflicts"],
+        "video": "../../assets/media/git-how-it-works.mp4",
+        "videoLabel": "▶ Watch: How Git Works (2 min)",
+        "resources": "../../learn/"
+      },
+      {
+        "id": "networking",
+        "title": "Networking",
+        "what": "How machines actually talk to each other.",
+        "why": "Makes \"why is this unreachable\" answerable instead of a guessing game.",
+        "learn": ["TCP/IP basics", "DNS", "Load balancing", "Firewalls & ports"]
+      }
+    ],
+    "chain": [
+      {
+        "id": "docker",
+        "title": "Docker",
+        "what": "Package an application and its dependencies into a portable container.",
+        "why": "The unit almost everything downstream (Cloud, CI/CD, Kubernetes) is built around.",
+        "learn": ["Images vs. containers", "Dockerfile", "Volumes", "Container networking"],
+        "build": "Containerize a small web application end to end."
+      },
+      {
+        "id": "cloud",
+        "title": "Cloud",
+        "what": "AWS, Azure, or GCP — infrastructure you rent instead of own.",
+        "why": "Pick one and go deep before spreading across all three. The concepts transfer; the exact APIs don't.",
+        "learn": ["Compute (EC2 / VMs)", "Storage", "IAM basics", "Managed databases"]
+      },
+      {
+        "id": "cicd",
+        "title": "CI / CD",
+        "what": "Automate build, test, and deploy.",
+        "why": "Shipping becomes a routine event, not a stressful manual ritual.",
+        "learn": ["Pipeline stages", "Automated testing", "Deployment strategies"]
+      },
+      {
+        "id": "terraform",
+        "title": "Terraform",
+        "what": "Define infrastructure as code instead of clicking through a cloud console.",
+        "why": "Reproducible, reviewable, versioned infrastructure — not tribal knowledge.",
+        "learn": ["HCL syntax", "State management", "Modules"]
+      },
+      {
+        "id": "kubernetes",
+        "title": "Kubernetes",
+        "what": "Orchestrate containers at scale.",
+        "why": "For when a single Docker host isn't enough anymore.",
+        "learn": ["Pods & deployments", "Services", "Scaling", "Helm basics"]
+      },
+      {
+        "id": "projects",
+        "title": "Projects",
+        "what": "Build something real, end to end.",
+        "why": "This is what actually gets noticed on a CV — not another tutorial completion.",
+        "learn": [],
+        "build": "A CI/CD pipeline for a real app, or a Terraform-provisioned cluster."
+      },
+      {
+        "id": "interview-ready",
+        "title": "Interview Ready",
+        "final": true,
+        "link": "../../interview/"
+      }
+    ]
+  },
+  "embedded": {
+    "title": "Embedded Engineer",
+    "icon": "⚙️",
+    "tagline": "Build software that runs close to hardware.",
+    "status": "coming-soon",
+    "skillChainPreview": ["C/C++", "MCU", "RTOS", "CAN", "AUTOSAR"]
+  },
+  "ai-ml": {
+    "title": "AI / ML Engineer",
+    "icon": "🤖",
+    "tagline": "Build intelligent systems with data and AI.",
+    "status": "coming-soon",
+    "skillChainPreview": ["Python", "ML", "Deep Learning", "PyTorch", "MLOps"]
+  },
+  "cloud": {
+    "title": "Cloud Engineer",
+    "icon": "🌐",
+    "tagline": "Design and manage cloud infrastructure.",
+    "status": "coming-soon",
+    "skillChainPreview": ["Linux", "Networking", "Cloud", "Containers", "IaC"]
+  }
+}
