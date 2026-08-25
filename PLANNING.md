@@ -44,7 +44,7 @@ Planning complete across 7 rounds of review. **The jobs pipeline is real and wor
 - **Readiness scoring** ran against 3 sample profiles and caught a real design bug: picking "weakest factor" by raw score alone let German (which floors at 10 for anyone who doesn't speak it) dominate the recommendation almost every time, even when 0-years-experience or a poor role-target-match were more actionable. Fixed: weakest factor is now picked by weighted improvement potential (`weight * (100 - score)`), which produced three genuinely distinct, situation-specific recommendations across the 3 test profiles.
 - **Grade converter** (Modified Bavarian Formula) validated against its own mathematical invariants — 100%/perfect CGPA must convert to exactly German 1.0, minimum-passing must convert to exactly German 4.0. Both hold exactly.
 
-**Only remaining Phase 0 item: the Tally form.** Needs a human — creating a free Tally account and building the form isn't something that can be done without you. Fields (already locked, tech spec §10):
+**Phase 0 is fully closed.** The Tally form ("Ask EngineerPath", form id `GxA1Jj`, live at https://tally.so/r/GxA1Jj) was built directly via Tally's REST API — the exact block/payload schema wasn't in the public docs, so it was reverse-engineered from the API's own validation error messages (a few iterative probe requests). All 8 fields match the locked spec exactly:
 ```
 Name, Email
 I'm looking for: [ ] Germany jobs  [ ] CV  [ ] Interview  [ ] Career
@@ -53,7 +53,7 @@ Experience:      Student / 0-2 / 3-5 / 6-10 / 10+
 What are you trying to achieve?  [free text]
 Would you like personal help?    No / Maybe / Yes
 ```
-Once that exists, submit one real test entry and confirm it's received — then Phase 0 is fully closed.
+Embedded in `ask/index.html` via Tally's `embed.js` (auto-resizing iframe, `noscript` fallback, plus a direct link-out button). Verified end-to-end with a real test submission (all 6 answers received correctly via the Submissions API), then deleted.
 
 ## Pages built so far (post-rebrand, clean-URL structure)
 
@@ -108,7 +108,7 @@ All three versions were verified in a real browser, not just written — the fin
 
 Explicitly NOT built this round, consistent with the standing scoping discipline: the path-comparison table (explicitly flagged by the user as "valuable later," not now), a founder bio/photo (would require fabricating content — needs the user's real input), and "why this job fits you" reasoning on job cards (would need a real skill-matching feature that doesn't exist — no fake relevance text).
 
-Still to build: real content for `learn/`, `interview/`, `career/`, `tools/readiness/` (the readiness.js logic exists and is validated, just not wired into a page yet), the 4 remaining roadmaps' full node content (currently "coming soon" stubs — DevOps is the only one with real per-node data in `roadmaps.json`), the Ask EngineerPath form (blocked on the user creating the Tally form), and `.github/workflows/update-jobs.yml`. Aspirational, explicitly deferred: real teaching animations (Git branch/merge, Docker packaging, CI/CD pipeline flow) and an actual animated SVG "path draws itself" scroll effect — both described in review briefs but not built; the only real animated asset remains the pre-rendered Git video.
+Still to build: real content for `learn/`, `interview/`, `career/` (`tools/readiness/` is now live — see below), the 4 remaining roadmaps' full node content (currently "coming soon" stubs — DevOps is the only one with real per-node data in `roadmaps.json`), founder bio/photo for `career/#about`. `.github/workflows/update-jobs.yml` is built (daily cron). The Learn-by-Seeing animations (Git branch/merge, Docker packaging, CI/CD pipeline flow) that were previously "aspirational, deferred" are now built and live on the homepage as real interactive SVG/box-flow diagrams — only the scroll-driven "path draws itself" effect remains undone.
 
 ## Repo layout (post-rebrand, clean URLs — supersedes the old flat structure)
 
