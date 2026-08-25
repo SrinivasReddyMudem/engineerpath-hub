@@ -2,9 +2,42 @@
   "software-engineer": {
     "title": "Software Engineer",
     "icon": "💻",
-    "tagline": "Build production-ready software.",
-    "status": "coming-soon",
-    "skillChainPreview": ["Programming", "Git", "APIs", "Databases", "System Design"]
+    "tagline": "Your path from zero → job ready.",
+    "status": "live",
+    "tracks": [
+      {
+        "id": "programming",
+        "title": "Programming",
+        "what": "The core skill everything else builds on — variables, control flow, functions, and at least one language you know deeply.",
+        "why": "Every other skill in this roadmap assumes you can already write and reason about code.",
+        "learn": ["Pick one language and go deep (Python, Java, or C++)", "Control flow & functions", "Object-oriented basics", "Reading other people's code"]
+      },
+      {
+        "id": "git",
+        "title": "Git",
+        "what": "Version control — tracking changes, branching, and collaborating without overwriting each other's work.",
+        "why": "Every real engineering team uses it; not knowing Git is an instant red flag in interviews.",
+        "learn": ["Branching & merging", "Commits & history", "Remotes", "Resolving conflicts"],
+        "video": "../../assets/media/git-how-it-works.mp4",
+        "videoLabel": "▶ Watch: How Git Works (2 min)",
+        "resources": "../../learn/"
+      },
+      {
+        "id": "dsa",
+        "title": "Data Structures",
+        "what": "Arrays, hash maps, trees, graphs, and the algorithms that operate on them.",
+        "why": "This is what most technical interviews actually test — not because you'll invert a binary tree at work, but because it signals how you reason about problems.",
+        "learn": ["Arrays & hash maps", "Trees & graphs", "Sorting & searching", "Time/space complexity"]
+      }
+    ],
+    "chain": [
+      { "id": "apis", "title": "APIs", "what": "How software components talk to each other over a network — usually REST or GraphQL.", "why": "Almost every real application is built from services talking through APIs.", "learn": ["REST principles", "HTTP methods & status codes", "Authentication basics", "Reading API docs"] },
+      { "id": "databases", "title": "Databases", "what": "Where an application's data actually lives — relational (SQL) or non-relational (NoSQL).", "why": "Every non-trivial application needs to store and query data reliably.", "learn": ["SQL fundamentals", "Schema design", "Indexes", "When to use NoSQL"] },
+      { "id": "testing", "title": "Testing", "what": "Writing code that verifies your other code actually works.", "why": "The difference between \"it works on my machine\" and something a team can trust in production.", "learn": ["Unit tests", "Test coverage", "Mocking dependencies"] },
+      { "id": "system-design", "title": "System Design", "what": "How to structure a larger application — services, scaling, trade-offs.", "why": "Senior interviews and real architecture decisions both live here.", "learn": ["Client-server basics", "Scaling (horizontal vs. vertical)", "Caching", "Trade-offs, not perfect answers"] },
+      { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "A small full-stack application — a front end, an API, and a real database." },
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+    ]
   },
   "devops": {
     "title": "DevOps Engineer",
@@ -38,77 +71,135 @@
       }
     ],
     "chain": [
-      {
-        "id": "docker",
-        "title": "Docker",
-        "what": "Package an application and its dependencies into a portable container.",
-        "why": "The unit almost everything downstream (Cloud, CI/CD, Kubernetes) is built around.",
-        "learn": ["Images vs. containers", "Dockerfile", "Volumes", "Container networking"],
-        "build": "Containerize a small web application end to end."
-      },
-      {
-        "id": "cloud",
-        "title": "Cloud",
-        "what": "AWS, Azure, or GCP — infrastructure you rent instead of own.",
-        "why": "Pick one and go deep before spreading across all three. The concepts transfer; the exact APIs don't.",
-        "learn": ["Compute (EC2 / VMs)", "Storage", "IAM basics", "Managed databases"]
-      },
-      {
-        "id": "cicd",
-        "title": "CI / CD",
-        "what": "Automate build, test, and deploy.",
-        "why": "Shipping becomes a routine event, not a stressful manual ritual.",
-        "learn": ["Pipeline stages", "Automated testing", "Deployment strategies"]
-      },
-      {
-        "id": "terraform",
-        "title": "Terraform",
-        "what": "Define infrastructure as code instead of clicking through a cloud console.",
-        "why": "Reproducible, reviewable, versioned infrastructure — not tribal knowledge.",
-        "learn": ["HCL syntax", "State management", "Modules"]
-      },
-      {
-        "id": "kubernetes",
-        "title": "Kubernetes",
-        "what": "Orchestrate containers at scale.",
-        "why": "For when a single Docker host isn't enough anymore.",
-        "learn": ["Pods & deployments", "Services", "Scaling", "Helm basics"]
-      },
-      {
-        "id": "projects",
-        "title": "Projects",
-        "what": "Build something real, end to end.",
-        "why": "This is what actually gets noticed on a CV — not another tutorial completion.",
-        "learn": [],
-        "build": "A CI/CD pipeline for a real app, or a Terraform-provisioned cluster."
-      },
-      {
-        "id": "interview-ready",
-        "title": "Interview Ready",
-        "final": true,
-        "link": "../../interview/"
-      }
+      { "id": "docker", "title": "Docker", "what": "Package an application and its dependencies into a portable container.", "why": "The unit almost everything downstream (Cloud, CI/CD, Kubernetes) is built around.", "learn": ["Images vs. containers", "Dockerfile", "Volumes", "Container networking"], "build": "Containerize a small web application end to end." },
+      { "id": "cloud", "title": "Cloud", "what": "AWS, Azure, or GCP — infrastructure you rent instead of own.", "why": "Pick one and go deep before spreading across all three. The concepts transfer; the exact APIs don't.", "learn": ["Compute (EC2 / VMs)", "Storage", "IAM basics", "Managed databases"] },
+      { "id": "cicd", "title": "CI / CD", "what": "Automate build, test, and deploy.", "why": "Shipping becomes a routine event, not a stressful manual ritual.", "learn": ["Pipeline stages", "Automated testing", "Deployment strategies"] },
+      { "id": "terraform", "title": "Terraform", "what": "Define infrastructure as code instead of clicking through a cloud console.", "why": "Reproducible, reviewable, versioned infrastructure — not tribal knowledge.", "learn": ["HCL syntax", "State management", "Modules"] },
+      { "id": "kubernetes", "title": "Kubernetes", "what": "Orchestrate containers at scale.", "why": "For when a single Docker host isn't enough anymore.", "learn": ["Pods & deployments", "Services", "Scaling", "Helm basics"] },
+      { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — not another tutorial completion.", "learn": [], "build": "A CI/CD pipeline for a real app, or a Terraform-provisioned cluster." },
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
     ]
   },
   "embedded": {
     "title": "Embedded Engineer",
     "icon": "⚙️",
-    "tagline": "Build software that runs close to hardware.",
-    "status": "coming-soon",
-    "skillChainPreview": ["C/C++", "MCU", "RTOS", "CAN", "AUTOSAR"]
+    "tagline": "Your path from zero → job ready.",
+    "status": "live",
+    "tracks": [
+      {
+        "id": "cpp",
+        "title": "C/C++",
+        "what": "The languages embedded systems are almost universally written in — direct memory control, no safety net.",
+        "why": "Higher-level languages rarely run on the resource-constrained hardware embedded engineers target.",
+        "learn": ["Pointers & memory management", "Structs & bitfields", "Volatile & memory-mapped I/O", "Compilation & linking basics"]
+      },
+      {
+        "id": "mcu",
+        "title": "MCU",
+        "what": "The actual chip your code runs on — registers, peripherals, interrupts.",
+        "why": "Embedded work means thinking in terms of real hardware, not an abstract runtime.",
+        "learn": ["Registers & memory-mapped I/O", "Interrupts (ISRs)", "Timers & PWM", "ADC / GPIO basics"]
+      },
+      {
+        "id": "git",
+        "title": "Git",
+        "what": "Version control — tracking changes, branching, and collaborating without overwriting each other's work.",
+        "why": "Firmware teams use Git just like software teams do — it's not optional.",
+        "learn": ["Branching & merging", "Commits & history", "Remotes", "Resolving conflicts"],
+        "video": "../../assets/media/git-how-it-works.mp4",
+        "videoLabel": "▶ Watch: How Git Works (2 min)",
+        "resources": "../../learn/"
+      }
+    ],
+    "chain": [
+      { "id": "rtos", "title": "RTOS", "what": "A real-time operating system — scheduling multiple tasks on constrained hardware with timing guarantees.", "why": "Most non-trivial embedded systems need more than a single bare-metal loop.", "learn": ["Task scheduling", "Mutexes & semaphores", "Priority inversion", "Stack sizing"] },
+      { "id": "can", "title": "CAN", "what": "Controller Area Network — the bus protocol most automotive and industrial ECUs use to talk to each other.", "why": "If you're targeting automotive embedded work specifically, CAN fluency is close to mandatory.", "learn": ["Bus arbitration", "Frame structure", "Error handling (bus-off, error frames)", "Reading a CAN trace"] },
+      { "id": "autosar", "title": "AUTOSAR", "what": "A standardized software architecture used across the automotive industry for ECU software.", "why": "Most automotive OEMs and suppliers build on AUTOSAR — it's a real, specific hiring filter in that industry.", "learn": ["Basic Software (BSW) vs. Application layer", "RTE (Runtime Environment)", "AUTOSAR Classic vs. Adaptive", "Configuration tools, conceptually"] },
+      { "id": "debugging", "title": "Debugging", "what": "Finding out why embedded code is misbehaving, with far fewer tools than a normal application has.", "why": "No print statements to spare, sometimes no debugger at all — this is its own skill.", "learn": ["JTAG / SWD debugging", "Logic analyzers & oscilloscopes", "Reading a stack trace on constrained hardware"] },
+      { "id": "testing", "title": "Testing", "what": "Verifying embedded software actually works — often on real hardware, not just in simulation.", "why": "A bug in embedded software can mean a real physical failure, not just a crashed app.", "learn": ["Unit testing on embedded targets", "Hardware-in-the-loop (HIL) basics", "MISRA-C awareness"] },
+      { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "A small embedded project end to end — reading a sensor, driving an actuator, or a mini CAN-based system." },
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+    ]
   },
   "ai-ml": {
     "title": "AI / ML Engineer",
     "icon": "🤖",
-    "tagline": "Build intelligent systems with data and AI.",
-    "status": "coming-soon",
-    "skillChainPreview": ["Python", "ML", "Deep Learning", "PyTorch", "MLOps"]
+    "tagline": "Your path from zero → job ready.",
+    "status": "live",
+    "tracks": [
+      {
+        "id": "python",
+        "title": "Python",
+        "what": "The dominant language for ML — readable, with the richest ecosystem of ML libraries.",
+        "why": "Nearly every ML framework, tutorial, and job posting assumes Python fluency.",
+        "learn": ["Core syntax & data structures", "Functions & classes", "Virtual environments & packages"]
+      },
+      {
+        "id": "math",
+        "title": "Math for ML",
+        "what": "Linear algebra, probability, and calculus — the actual mechanics behind ML algorithms.",
+        "why": "Without this, ML stays a black box you can't debug or improve.",
+        "learn": ["Vectors & matrices", "Probability basics", "Derivatives & gradients, conceptually"]
+      },
+      {
+        "id": "git",
+        "title": "Git",
+        "what": "Version control — tracking changes, branching, and collaborating without overwriting each other's work.",
+        "why": "ML projects still live in real codebases, tracked like any other software.",
+        "learn": ["Branching & merging", "Commits & history", "Remotes", "Resolving conflicts"],
+        "video": "../../assets/media/git-how-it-works.mp4",
+        "videoLabel": "▶ Watch: How Git Works (2 min)",
+        "resources": "../../learn/"
+      }
+    ],
+    "chain": [
+      { "id": "numpy-pandas", "title": "NumPy & Pandas", "what": "The core Python libraries for numerical computing and tabular data.", "why": "Almost every ML pipeline starts with cleaning and shaping data in these two libraries.", "learn": ["Arrays & vectorized operations (NumPy)", "DataFrames & data cleaning (Pandas)", "Handling missing data"] },
+      { "id": "ml", "title": "Machine Learning", "what": "Classical ML — regression, classification, clustering, and the algorithms behind them.", "why": "Not every problem needs deep learning; this is the foundation before it.", "learn": ["Supervised vs. unsupervised learning", "Regression & classification", "Overfitting & evaluation metrics"] },
+      { "id": "deep-learning", "title": "Deep Learning", "what": "Neural networks — the approach behind most modern breakthroughs in vision, language, and beyond.", "why": "This is where most current ML job postings and research actually live.", "learn": ["Neural network basics", "Backpropagation, conceptually", "CNNs & basic architectures"] },
+      { "id": "pytorch", "title": "PyTorch", "what": "The most widely used deep learning framework in both research and industry.", "why": "Fluency here is close to a baseline expectation on ML job postings.", "learn": ["Tensors", "Building a model", "Training loops", "Loading real datasets"] },
+      { "id": "mlops", "title": "MLOps", "what": "Getting a model from a notebook into something that actually runs reliably in production.", "why": "A model that only works in your notebook isn't a product — this is the gap most ML tutorials skip.", "learn": ["Model versioning", "Serving a model (API basics)", "Monitoring model performance over time"] },
+      { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "An end-to-end ML project — real data, a trained model, actually serving predictions somewhere." },
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+    ]
   },
   "cloud": {
     "title": "Cloud Engineer",
     "icon": "🌐",
-    "tagline": "Design and manage cloud infrastructure.",
-    "status": "coming-soon",
-    "skillChainPreview": ["Linux", "Networking", "Cloud", "Containers", "IaC"]
+    "tagline": "Your path from zero → job ready.",
+    "status": "live",
+    "tracks": [
+      {
+        "id": "linux",
+        "title": "Linux",
+        "what": "The operating system layer almost all cloud infrastructure runs on.",
+        "why": "Shell comfort, file permissions, and process management are assumed in every task ahead.",
+        "learn": ["Shell / bash basics", "File permissions", "Process management", "Package managers"]
+      },
+      {
+        "id": "networking",
+        "title": "Networking",
+        "what": "How machines actually talk to each other, at cloud scale.",
+        "why": "Cloud environments are network-first — VPCs, subnets, and routing are daily concerns.",
+        "learn": ["TCP/IP basics", "DNS", "Load balancing", "VPCs & subnets"]
+      },
+      {
+        "id": "git",
+        "title": "Git",
+        "what": "Version control for infrastructure and application code alike.",
+        "why": "Infrastructure-as-code workflows live in Git, reviewed like any other change.",
+        "learn": ["Branching & merging", "Commits & history", "Remotes", "Resolving conflicts"],
+        "video": "../../assets/media/git-how-it-works.mp4",
+        "videoLabel": "▶ Watch: How Git Works (2 min)",
+        "resources": "../../learn/"
+      }
+    ],
+    "chain": [
+      { "id": "cloud-fundamentals", "title": "Cloud Fundamentals", "what": "The core services any cloud provider (AWS, Azure, GCP) offers — compute, storage, identity.", "why": "Pick one provider and go deep; the concepts transfer even though the exact APIs don't.", "learn": ["Compute (VMs / instances)", "Object storage", "IAM & permissions basics", "Regions & availability zones"] },
+      { "id": "containers", "title": "Containers", "what": "Packaging an application so it runs the same way anywhere — the standard unit cloud infrastructure is built around.", "why": "Nearly all modern cloud deployments are container-based in some form.", "learn": ["Images vs. containers", "Container registries", "Basic orchestration concepts"] },
+      { "id": "security", "title": "Security", "what": "Identity, access control, and network security in a cloud environment.", "why": "A misconfigured cloud environment is one of the most common real-world security failures — not optional knowledge.", "learn": ["IAM policies & least privilege", "Network security groups / firewalls", "Secrets management"] },
+      { "id": "iac", "title": "IaC", "what": "Defining cloud infrastructure as code instead of clicking through a console.", "why": "Reproducible, reviewable, versioned infrastructure — the standard practice at any real scale.", "learn": ["Terraform or a provider-native tool", "State management", "Modules & reuse"] },
+      { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "Provision real cloud infrastructure for a small project using IaC, not the console." },
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+    ]
   }
 }

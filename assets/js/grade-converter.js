@@ -27,4 +27,6 @@ function fromCGPA(cgpa, scale = 10) {
   return convertToGermanGrade(cgpa, scale, scale / 2);
 }
 
-module.exports = { convertToGermanGrade, fromIndianPercentage, fromCGPA };
+// Guarded the same way as readiness.js — `module` doesn't exist in a
+// plain browser <script> tag.
+if (typeof module !== "undefined") module.exports = { convertToGermanGrade, fromIndianPercentage, fromCGPA };

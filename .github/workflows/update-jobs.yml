@@ -1,0 +1,38 @@
+name: Update jobs feed
+
+on:
+  schedule:
+    # Once daily is enough for a small, curated feed (tech spec §13) — a
+    # public repo's Actions minutes are free regardless, but there's no
+    # reason to run more often than the data actually changes.
+    - cron: "0 6 * * *"
+  workflow_dispatch: {} # lets it be triggered manually from the Actions tab too
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run the jobs pipeline
+        working-directory: scripts
+        run: python fetch_jobs.py
+
+      - name: Commit updated jobs.json if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/jobs.json; then
+            echo "No changes to data/jobs.json"
+          else
+            git add data/jobs.json
+            git commit -m "Automated jobs feed update"
+            git push
+          fi

@@ -4,10 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Job Readiness Checker — EngineerPath.hub</title>
+<meta name="description" content="A quick, honest signal on where you stand for engineering job applications — degree, experience, skills, English, German, and target-role match.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/style.css">
+<style>
+  .tool-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.6rem clamp(1.1rem, 4vw, 2rem); box-shadow: var(--shadow-sm); }
+  .field { margin-bottom: 1.1rem; }
+  .field label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
+  .field select, .field input[type="number"] { width: 100%; font-family: inherit; font-size: 0.95rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+  .field input[type="range"] { width: 100%; }
+  .field .range-value { font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; color: var(--accent); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+  .result-card {
+    display: none; margin-top: 1.6rem; padding: 1.6rem clamp(1.1rem, 4vw, 2rem); border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    background-image: linear-gradient(var(--surface), var(--surface)), linear-gradient(135deg, var(--accent), var(--de-accent));
+    background-origin: border-box; background-clip: padding-box, border-box;
+    box-shadow: 0 10px 28px -10px var(--accent);
+  }
+  .result-card.open { display: block; }
+  .result-card .score { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 2.8rem; color: var(--accent); }
+  .result-card .score span { font-size: 1.2rem; color: var(--text-faint); font-weight: 500; }
+  .result-card .next-step { margin-top: 1rem; font-size: 0.95rem; }
+  .result-card .disclaimer { margin-top: 1rem; font-size: 0.8rem; color: var(--text-faint); border-top: 1px solid var(--border); padding-top: 0.9rem; }
+  .grade-tool { margin-top: 3rem; padding-top: 2.4rem; border-top: 1px solid var(--border); }
+  .grade-result { margin-top: 1rem; font-family: "IBM Plex Mono", monospace; font-size: 1.1rem; color: var(--accent); display: none; }
+  .grade-result.open { display: block; }
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -26,14 +52,167 @@
   </div>
 </header>
 <main>
-  <section class="placeholder-hero wrap-narrow">
-    <span class="icon">🛠</span>
-    <h1>Job Readiness Checker</h1>
-    <p>The interactive readiness tool is being wired up here next — the scoring logic is already built and validated.</p>
-    <a href="../../ask/" class="btn btn-outline" style="margin-top:1.2rem;">Ask what you need →</a>
+  <section class="hero" style="padding-top:3rem; padding-bottom:1rem;">
+    <div class="wrap-narrow">
+      <span class="eyebrow">🛠 Tool</span>
+      <h1 style="font-size:clamp(1.9rem,4.5vw,2.6rem);">Job Readiness Checker</h1>
+      <p class="dek">Degree, experience, skills, English, German, and target-role match → a score and the one thing most worth fixing next.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow">
+      <form class="tool-form" id="readiness-form">
+        <div class="field">
+          <label for="degree">Your degree, relative to the role you want</label>
+          <select id="degree">
+            <option value="relevant">Directly relevant (CS / Engineering)</option>
+            <option value="related">Related technical field</option>
+            <option value="unrelated_degree">Unrelated field</option>
+            <option value="no_degree">No degree</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="experience">Years of relevant experience</label>
+            <input type="number" id="experience" min="0" max="40" value="2">
+          </div>
+          <div class="field">
+            <label for="target-role">Target role</label>
+            <select id="target-role">
+              <option value="software-engineer">Software Engineer</option>
+              <option value="devops">DevOps Engineer</option>
+              <option value="embedded">Embedded Engineer</option>
+              <option value="ai-ml">AI / ML Engineer</option>
+              <option value="cloud">Cloud Engineer</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="skills">How many of the target role's core skills do you already have? <span class="range-value" id="skills-val">50%</span></label>
+          <input type="range" id="skills" min="0" max="100" value="50">
+        </div>
+        <div class="field">
+          <label for="match">How closely does your current field match this target role? <span class="range-value" id="match-val">50%</span></label>
+          <input type="range" id="match" min="0" max="100" value="50">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="english">English level</label>
+            <select id="english">
+              <option value="none">None</option><option value="A1">A1</option><option value="A2">A2</option>
+              <option value="B1">B1</option><option value="B2">B2</option><option value="C1" selected>C1</option><option value="C2">C2</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="german">German level</label>
+            <select id="german">
+              <option value="none" selected>None</option><option value="A1">A1</option><option value="A2">A2</option>
+              <option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:0.6rem;">Check my readiness →</button>
+      </form>
+
+      <div class="result-card" id="result-card">
+        <div class="score" id="result-score">0.0<span>/10</span></div>
+        <div class="next-step" id="result-next"></div>
+        <div class="disclaimer" id="result-disclaimer"></div>
+      </div>
+
+      <div class="grade-tool">
+        <h2 style="font-size:1.3rem;">Grade Converter (estimate)</h2>
+        <p style="color:var(--text-soft); font-size:0.9rem; max-width:60ch;">Indian percentage or CGPA → the German 1.0–5.0 scale, via the Modified Bavarian Formula. <strong>This is an estimate only</strong> — <a href="https://www.uni-assist.de/" target="_blank" rel="noopener">uni-assist</a> performs the real, binding conversion at application time.</p>
+        <div class="field-row" style="margin-top:1rem;">
+          <div class="field">
+            <label for="pct">Percentage (0–100)</label>
+            <input type="number" id="pct" min="0" max="100" value="75">
+          </div>
+          <div class="field">
+            <label for="cgpa">or CGPA (out of 10)</label>
+            <input type="number" id="cgpa" min="0" max="10" step="0.01" value="8.0">
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline" id="grade-btn">Convert →</button>
+        <div class="grade-result" id="grade-result"></div>
+      </div>
+    </div>
   </section>
 </main>
-<footer class="site-footer"><div class="wrap footer-bottom">© EngineerPath.hub — built for engineers.</div></footer>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>EngineerPath.hub</h5>
+        <p style="color:var(--text-soft); font-size:0.88rem; max-width:32ch;">Build your skills. Find your path. Get career-ready.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <a href="../../learn/">Learn</a>
+        <a href="../../interview/">Interview</a>
+        <a href="../../career/">Career</a>
+      </div>
+      <div class="footer-col">
+        <h5>More</h5>
+        <a href="../../jobs/">Jobs</a>
+        <a href="../../germany/">Germany</a>
+        <a href="../../ask/">Ask EngineerPath</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="../../legal/privacy/">Privacy</a>
+        <a href="../../legal/impressum/">Impressum</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© EngineerPath.hub — built for engineers.</div>
+  </div>
+</footer>
+
 <script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/readiness.js"></script>
+<script src="../../assets/js/grade-converter.js"></script>
+<script>
+  const WEAKEST_LABEL = {
+    degree: "Degree fit", experience: "Experience", technicalSkills: "Technical skills",
+    english: "English level", german: "German level", targetRoleMatch: "Target-role match",
+  };
+
+  document.getElementById("skills").addEventListener("input", (e) => {
+    document.getElementById("skills-val").textContent = e.target.value + "%";
+  });
+  document.getElementById("match").addEventListener("input", (e) => {
+    document.getElementById("match-val").textContent = e.target.value + "%";
+  });
+
+  document.getElementById("readiness-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const profile = {
+      degree: document.getElementById("degree").value,
+      experienceYears: Number(document.getElementById("experience").value) || 0,
+      technicalSkillsMatchPct: Number(document.getElementById("skills").value),
+      english: document.getElementById("english").value,
+      german: document.getElementById("german").value,
+      targetRoleMatchPct: Number(document.getElementById("match").value),
+    };
+    const result = scoreReadiness(profile);
+    document.getElementById("result-score").innerHTML = `${result.score10}<span>/10</span>`;
+    document.getElementById("result-next").innerHTML = `<strong>Biggest opportunity: ${WEAKEST_LABEL[result.weakestFactor]}.</strong> ${result.nextStep}`;
+    document.getElementById("result-disclaimer").textContent = result.disclaimer;
+    const card = document.getElementById("result-card");
+    card.classList.add("open");
+    card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+
+  document.getElementById("grade-btn").addEventListener("click", () => {
+    const pct = document.getElementById("pct").value;
+    const cgpa = document.getElementById("cgpa").value;
+    const fromPct = fromIndianPercentage(Number(pct));
+    const fromCg = fromCGPA(Number(cgpa));
+    const el = document.getElementById("grade-result");
+    el.innerHTML = `${pct}% ≈ German ${fromPct} &nbsp;|&nbsp; CGPA ${cgpa} ≈ German ${fromCg}`;
+    el.classList.add("open");
+  });
+</script>
 </body>
 </html>

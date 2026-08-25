@@ -87,4 +87,7 @@ const NEXT_STEP = {
   targetRoleMatch: "Consider roles closer to your current track, or be explicit in your CV about transferable experience.",
 };
 
-module.exports = { scoreReadiness };
+// CommonJS export for the Node-based Phase 0 validation script only —
+// `module` doesn't exist in a plain browser <script> tag, so this must be
+// guarded or it throws a ReferenceError the moment the page loads.
+if (typeof module !== "undefined") module.exports = { scoreReadiness };

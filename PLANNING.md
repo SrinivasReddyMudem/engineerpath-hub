@@ -1,5 +1,9 @@
 # EngineerPath.hub
 
+**LIVE:** https://srinivasreddymudem.github.io/engineerpath-hub/ (GitHub Pages, deployed 2026-08-25) — real, public, permanent, verified working (homepage + roadmap/devops/ + germany/study/ + jobs/ + all CSS/JS/data assets all return HTTP 200 on the actual deployed URL, not just localhost).
+
+**Repo:** https://github.com/SrinivasReddyMudem/engineerpath-hub — public (required for free-tier Pages), separate from the `manimations` repo (the Instagram Reel-generation pipeline, unrelated tech stack) — kept as two repos deliberately, confirmed with the user rather than assumed: different purpose/stack, `manimations` may be private and shouldn't be forced public just to get this site live, and mixing large video-render history with website commit history would make both messier.
+
 **Rebranded from "EngineerPath Germany" on 2026-08-24.** Broader positioning now: an engineering career platform — "Learn. Build. Prepare. Grow." — for engineering students and early-career engineers generally. Germany is one specialized pathway inside it (`/germany/`), not the site's identity; it must not dominate the homepage. Repo/folder renamed `engineerpath-germany` → `engineerpath-hub` to match. Note: `EngineerPath.hub` is the brand *wordmark* only — `.hub` is still not a real, working domain (Web3-only, confirmed earlier), so the actual deployed URL stays a real free subdomain until a proper domain is bought.
 
 Everything below from the original Germany-focused plan is still valid and reused — the jobs pipeline, the compliance rules, the monetization model — just recontextualized as one pathway (`/germany/study/`, `/germany/work/`) rather than the whole product.

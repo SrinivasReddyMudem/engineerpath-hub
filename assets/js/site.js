@@ -33,15 +33,28 @@ function initCareerCardSpotlight() {
   function clearPops(card) {
     popTimeouts.forEach((t) => clearTimeout(t));
     popTimeouts = [];
-    card.querySelectorAll(".chain-node.pop, .chain-arrow.pop").forEach((el) => el.classList.remove("pop"));
+    card.querySelectorAll(".chain-node.pop, .chain-arrow.pop, .chain-node.done, .chain-arrow.done").forEach((el) => el.classList.remove("pop", "done"));
   }
 
   function activate(i) {
     cards.forEach((c) => c.classList.remove("spotlight"));
     const card = cards[i];
     card.classList.add("spotlight");
-    card.querySelectorAll(".chain-node, .chain-arrow").forEach((el, idx) => {
-      popTimeouts.push(setTimeout(() => el.classList.add("pop"), idx * 140));
+    const els = card.querySelectorAll(".chain-node, .chain-arrow");
+    els.forEach((el, idx) => {
+      popTimeouts.push(
+        setTimeout(() => {
+          // demote whichever element was "current" to "done" (smaller,
+          // settled) before promoting this one — only one element is ever
+          // at full pop-scale at a time, so the chain reads as a
+          // progression instead of everything lighting up and staying lit.
+          if (idx > 0) {
+            els[idx - 1].classList.remove("pop");
+            els[idx - 1].classList.add("done");
+          }
+          el.classList.add("pop");
+        }, idx * 140)
+      );
     });
   }
 
