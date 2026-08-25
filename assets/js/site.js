@@ -12,7 +12,60 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
   initAudiencePlans();
   initCareerCardSpotlight();
+  initGitGraphModule();
+  initFlowModule("docker-flow", "play-docker");
+  initFlowModule("cicd-flow", "play-cicd");
 });
+
+/**
+ * The Git branch/merge diagram — a real SVG that draws in on click, not a
+ * static picture. Tells one specific, correct story: main keeps running
+ * while a feature branch splits off, gets its own commits, then merges
+ * back — nothing on main changes until the merge itself.
+ */
+function initGitGraphModule() {
+  const btn = document.getElementById("play-git");
+  if (!btn) return;
+  const ids = ["gg-p-main", "gg-d1", "gg-p-feature", "gg-d2", "gg-d3", "gg-p-merge", "gg-d4"];
+  const delays = [0, 500, 750, 1300, 1550, 1850, 2350];
+
+  function reset() {
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      el.classList.remove("drawn", "shown");
+    });
+  }
+
+  btn.addEventListener("click", () => {
+    reset();
+    ids.forEach((id, i) => {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        el.classList.add(el.tagName === "circle" ? "shown" : "drawn");
+      }, delays[i]);
+    });
+  });
+}
+
+/** Shared driver for the simple box-and-arrow flow diagrams (Docker, CI/CD)
+ * — each stage lights up in sequence and stays lit, since it represents a
+ * build actually passing through each stage, not a menu to choose from. */
+function initFlowModule(containerId, buttonId) {
+  const container = document.getElementById(containerId);
+  const btn = document.getElementById(buttonId);
+  if (!container || !btn) return;
+  const steps = [...container.querySelectorAll("[data-step]")];
+  const maxStep = Math.max(...steps.map((s) => Number(s.dataset.step)));
+
+  btn.addEventListener("click", () => {
+    steps.forEach((s) => s.classList.remove("active"));
+    for (let step = 0; step <= maxStep; step++) {
+      setTimeout(() => {
+        steps.filter((s) => Number(s.dataset.step) === step).forEach((s) => s.classList.add("active"));
+      }, step * 550);
+    }
+  });
+}
 
 /**
  * One career card at a time gets a traveling gradient-glow "spotlight,"
@@ -29,6 +82,14 @@ function initCareerCardSpotlight() {
 
   let index = 0;
   let popTimeouts = [];
+  let cycleTimer = null;
+
+  // Each node's pop transition takes 0.5s (see CSS) — the stagger between
+  // nodes must be at least that long, or the next node fires mid-transition
+  // and nothing ever visibly settles. STAGGER sits comfortably above it so
+  // each pop finishes and holds before the next one starts.
+  const STAGGER = 700;
+  const HOLD_AFTER_COMPLETE = 2200;
 
   function clearPops(card) {
     popTimeouts.forEach((t) => clearTimeout(t));
@@ -37,6 +98,7 @@ function initCareerCardSpotlight() {
   }
 
   function activate(i) {
+    if (cycleTimer) clearTimeout(cycleTimer);
     cards.forEach((c) => c.classList.remove("spotlight"));
     const card = cards[i];
     card.classList.add("spotlight");
@@ -53,20 +115,24 @@ function initCareerCardSpotlight() {
             els[idx - 1].classList.add("done");
           }
           el.classList.add("pop");
-        }, idx * 140)
+        }, idx * STAGGER)
       );
     });
-  }
 
-  function tick() {
-    clearPops(cards[index]);
-    index = (index + 1) % cards.length;
-    activate(index);
+    // Total time this card needs: every node staggers in, then a real hold
+    // so a viewer can actually read the completed chain before it moves on
+    // — the duration adapts to how many nodes this specific card has,
+    // instead of a fixed cycle length that cuts long chains off early.
+    const cardDuration = els.length * STAGGER + HOLD_AFTER_COMPLETE;
+    cycleTimer = setTimeout(() => {
+      clearPops(cards[index]);
+      index = (index + 1) % cards.length;
+      activate(index);
+    }, cardDuration);
   }
 
   function start() {
     activate(index);
-    setInterval(tick, 2600);
 
     // Hovering a card takes over immediately rather than waiting for its
     // turn — the auto-cycle just resumes from there afterward, since it

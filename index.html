@@ -129,23 +129,52 @@
         <h2>See the concept. Don't just read it.</h2>
       </div>
       <div class="card-grid cols-3">
-        <a class="explore-card" href="roadmap/devops/">
-          <span class="icon">🌿</span>
-          <h3>Git</h3>
-          <p>"What actually happens when you merge?" — watch the real explainer, not just a description.</p>
-          <span class="go">Watch: How Git Works <span class="arrow">→</span></span>
-        </a>
-        <div class="explore-card" style="opacity:0.7;">
-          <span class="icon">📦</span>
-          <h3>Docker</h3>
-          <p>"Why does it work on my machine but not yours?" — animated explainer coming soon.</p>
-          <span class="go" style="color:var(--text-faint);">Coming soon</span>
+        <div class="learn-module">
+          <span class="module-tag">GIT</span>
+          <h3>How branches actually work</h3>
+          <svg class="git-graph-svg" viewBox="0 0 300 120" id="git-graph-svg">
+            <path class="gg-path gg-main" id="gg-p-main" d="M15,95 L285,95"></path>
+            <path class="gg-path gg-feature" id="gg-p-feature" d="M120,95 L170,50 L215,50"></path>
+            <path class="gg-path gg-merge" id="gg-p-merge" d="M215,50 L250,95"></path>
+            <circle class="gg-dot" id="gg-d1" cx="120" cy="95" r="6"></circle>
+            <circle class="gg-dot gg-feature-dot" id="gg-d2" cx="170" cy="50" r="6"></circle>
+            <circle class="gg-dot gg-feature-dot" id="gg-d3" cx="215" cy="50" r="6"></circle>
+            <circle class="gg-dot gg-merge-dot" id="gg-d4" cx="250" cy="95" r="6"></circle>
+          </svg>
+          <button class="btn btn-outline module-play" id="play-git">▶ Play</button>
+          <p class="module-caption">main keeps going while a feature branch splits off, gets its own commits, then merges back in — nothing on main is touched until the merge itself.</p>
         </div>
-        <div class="explore-card" style="opacity:0.7;">
-          <span class="icon">🔄</span>
-          <h3>CI/CD</h3>
-          <p>"What happens after you push code?" — animated explainer coming soon.</p>
-          <span class="go" style="color:var(--text-faint);">Coming soon</span>
+
+        <div class="learn-module">
+          <span class="module-tag">DOCKER</span>
+          <h3>From code to running app</h3>
+          <div class="flow-diagram" id="docker-flow" style="margin:0.4rem 0 0.8rem;">
+            <div class="flow-box" data-step="0">Your Code</div>
+            <div class="flow-arrow-v" data-step="1">↓ docker build</div>
+            <div class="flow-box" data-step="1">Docker Image</div>
+            <div class="flow-arrow-v" data-step="2">↓ docker run</div>
+            <div class="flow-box" data-step="2">Container</div>
+            <div class="flow-arrow-v" data-step="3">↓</div>
+            <div class="flow-box" data-step="3">Running App</div>
+          </div>
+          <button class="btn btn-outline module-play" id="play-docker">▶ Play</button>
+          <p class="module-caption">The image is a frozen snapshot — the same one runs identically on your machine, a teammate's, or a server. That's the "works on my machine" problem, solved.</p>
+        </div>
+
+        <div class="learn-module">
+          <span class="module-tag">CI/CD</span>
+          <h3>What happens after you push</h3>
+          <div class="flow-diagram" id="cicd-flow" style="margin:0.4rem 0 0.8rem;">
+            <div class="flow-box" data-step="0">Code Push</div>
+            <div class="flow-arrow-v" data-step="1">↓</div>
+            <div class="flow-box" data-step="1">Build</div>
+            <div class="flow-arrow-v" data-step="2">↓</div>
+            <div class="flow-box" data-step="2">Test</div>
+            <div class="flow-arrow-v" data-step="3">↓</div>
+            <div class="flow-box" data-step="3">Deploy</div>
+          </div>
+          <button class="btn btn-outline module-play" id="play-cicd">▶ Play</button>
+          <p class="module-caption">Each stage has to pass before the next one runs — a failing test stops a bad build from ever reaching Deploy.</p>
         </div>
       </div>
     </div>
