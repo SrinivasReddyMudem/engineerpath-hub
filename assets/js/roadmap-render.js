@@ -52,8 +52,10 @@ function liveRoadmapHTML(roadmap) {
     </section>
     <section class="section">
       <div class="wrap">
+        <p class="roadmap-section-label">Start with these ${roadmap.tracks.length} — learn them in any order, they don't depend on each other.</p>
         <div class="roadmap-tracks">${tracksHTML}</div>
-        <div class="roadmap-converge">↓ ${roadmap.tracks.map(() => "↓").join(" ")} merge ↓</div>
+        <div class="roadmap-converge">↓ once you're comfortable with all ${roadmap.tracks.length} ↓</div>
+        <p class="roadmap-section-label">From here it's a straight line — each step needs the one before it.</p>
         <div class="roadmap-chain">${chainHTML}</div>
         <div class="nudge"><a href="../../" class="btn btn-outline">← Back to all paths</a></div>
       </div>
