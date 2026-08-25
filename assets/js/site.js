@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
   initAudiencePlans();
   initCareerCardSpotlight();
-  initGitGraphModule();
-  initFlowModule("docker-flow", "play-docker");
-  initFlowModule("cicd-flow", "play-cicd");
+  const playGit = initGitGraphModule();
+  const playDocker = initFlowModule("docker-flow", "play-docker");
+  const playCicd = initFlowModule("cicd-flow", "play-cicd");
+  initLearnBySeeingAutoPlay([playGit, playDocker, playCicd]);
 });
 
 /**
@@ -22,10 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
  * static picture. Tells one specific, correct story: main keeps running
  * while a feature branch splits off, gets its own commits, then merges
  * back — nothing on main changes until the merge itself.
+ * Returns the play() function so it can also be triggered automatically
+ * (see initLearnBySeeingAutoPlay) — the button stays for a manual replay.
  */
 function initGitGraphModule() {
   const btn = document.getElementById("play-git");
-  if (!btn) return;
+  if (!btn) return null;
   const ids = ["gg-p-main", "gg-d1", "gg-p-feature", "gg-d2", "gg-d3", "gg-p-merge", "gg-d4"];
   const delays = [0, 500, 750, 1300, 1550, 1850, 2350];
 
@@ -36,7 +39,7 @@ function initGitGraphModule() {
     });
   }
 
-  btn.addEventListener("click", () => {
+  function play() {
     reset();
     ids.forEach((id, i) => {
       setTimeout(() => {
@@ -44,27 +47,68 @@ function initGitGraphModule() {
         el.classList.add(el.tagName === "circle" ? "shown" : "drawn");
       }, delays[i]);
     });
-  });
+  }
+
+  btn.addEventListener("click", play);
+  return play;
 }
 
 /** Shared driver for the simple box-and-arrow flow diagrams (Docker, CI/CD)
  * — each stage lights up in sequence and stays lit, since it represents a
- * build actually passing through each stage, not a menu to choose from. */
+ * build actually passing through each stage, not a menu to choose from.
+ * Returns play() for the same auto-trigger reason as initGitGraphModule. */
 function initFlowModule(containerId, buttonId) {
   const container = document.getElementById(containerId);
   const btn = document.getElementById(buttonId);
-  if (!container || !btn) return;
+  if (!container || !btn) return null;
   const steps = [...container.querySelectorAll("[data-step]")];
   const maxStep = Math.max(...steps.map((s) => Number(s.dataset.step)));
 
-  btn.addEventListener("click", () => {
+  function play() {
     steps.forEach((s) => s.classList.remove("active"));
     for (let step = 0; step <= maxStep; step++) {
       setTimeout(() => {
         steps.filter((s) => Number(s.dataset.step) === step).forEach((s) => s.classList.add("active"));
       }, step * 550);
     }
-  });
+  }
+
+  btn.addEventListener("click", play);
+  return play;
+}
+
+/**
+ * Plays all three Learn-by-Seeing modules automatically, once, the first
+ * time a visitor scrolls the section into view — a "Play" button that
+ * requires a deliberate click is friction most scrollers won't bother
+ * with. The button stays on each module for a manual replay afterward.
+ * Staggered starts so the three diagrams don't all animate at once.
+ */
+function initLearnBySeeingAutoPlay(playFns) {
+  const section = document.getElementById("learn-by-seeing");
+  const fns = playFns.filter(Boolean);
+  if (!section || !fns.length) return;
+
+  function playAll() {
+    fns.forEach((play, i) => setTimeout(play, i * 400));
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    playAll();
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          playAll();
+          observer.disconnect();
+        }
+      });
+    },
+    { threshold: 0.35 }
+  );
+  observer.observe(section);
 }
 
 /**
