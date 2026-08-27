@@ -108,30 +108,43 @@ All three versions were verified in a real browser, not just written — the fin
 
 Explicitly NOT built this round, consistent with the standing scoping discipline: the path-comparison table (explicitly flagged by the user as "valuable later," not now), a founder bio/photo (would require fabricating content — needs the user's real input), and "why this job fits you" reasoning on job cards (would need a real skill-matching feature that doesn't exist — no fake relevance text).
 
-Still to build: real content for `learn/`, `interview/`, `career/` (`tools/readiness/` is now live — see below), the 4 remaining roadmaps' full node content (currently "coming soon" stubs — DevOps is the only one with real per-node data in `roadmaps.json`), founder bio/photo for `career/#about`. `.github/workflows/update-jobs.yml` is built (daily cron). The Learn-by-Seeing animations (Git branch/merge, Docker packaging, CI/CD pipeline flow) that were previously "aspirational, deferred" are now built and live on the homepage as real interactive SVG/box-flow diagrams — only the scroll-driven "path draws itself" effect remains undone.
+Still to build: real content for `learn/`, `interview/`, `career/`, the 4 remaining roadmaps' full node content (currently "coming soon" stubs — DevOps is the only one with real per-node data in `roadmaps.json`), founder bio/photo for `career/#about`. `.github/workflows/update-jobs.yml` is built (daily cron). The Learn-by-Seeing animations (Git branch/merge, Docker packaging, CI/CD pipeline flow) are built, live, and now auto-play on scroll (see 2026-08-27 below) — only the scroll-driven "path draws itself" roadmap effect remains undone.
 
 ## Repo layout (post-rebrand, clean URLs — supersedes the old flat structure)
 
 ```
 engineerpath-hub/
 ├── index.html                                                            ✓ built, browser-verified — hero, career cards (animated chains),
-│                                                                            Learn-by-Seeing, audience plans, jobs/Germany/trust
+│                                                                            Learn-by-Seeing (autoplay), audience plans, jobs/Germany/trust
 ├── jobs/index.html                                                       ✓ built, browser-verified
 ├── roadmap/{software-engineer,devops,embedded,ai-ml,cloud}/index.html    ✓ thin wrappers — data-driven, see roadmaps.json (devops = "live", rest = "coming-soon")
+├── ask/index.html                                                        ✓ live Tally form embed ("Ask EngineerPath", form id GxA1Jj)
 ├── legal/privacy/, legal/impressum/                                      ✓ real content, Impressum needs the user's legal details
-├── learn/, interview/, career/, tools/readiness/,                        ✓ "coming soon" stubs, no dead links
-│   germany/, germany/study/, germany/work/, ask/
+├── learn/, interview/, career/                                           ✓ "coming soon" stubs, no dead links — still need real content
+├── tools/readiness/                                                      ✓ live — Job Readiness Checker + Grade Converter, wired and tested
+├── germany/, germany/study/, germany/work/                               ✓ real content, live external sources
 ├── assets/css/style.css                                                  ✓ Linear/GitHub/Notion-inspired system + one hero glow exception
-├── assets/js/site.js                                                     ✓ mobile nav, scroll reveal, audience plans, skill-chain animation
-├── assets/js/roadmap-render.js                                           ✓ data-driven roadmap renderer (reads assets/data/roadmaps.json)
+├── assets/js/site.js                                                     ✓ mobile nav, scroll reveal, audience plans, skill-chain animation,
+│                                                                            Learn-by-Seeing autoplay
+├── assets/js/roadmap-render.js                                           ✓ data-driven roadmap renderer (reads assets/data/roadmaps.json),
+│                                                                            now explains the 3-track→1-chain structure in visible copy
 ├── assets/js/render-jobs.js, tracker.js                                  ✓ built and browser-verified
-├── assets/js/readiness.js, grade-converter.js                            ✓ built and validated (not wired into a page yet)
+├── assets/js/readiness.js, grade-converter.js                            ✓ built, validated, and wired into tools/readiness/
 ├── assets/data/roadmaps.json                                             ✓ real, DevOps fully populated, other 4 have preview-only data
 ├── assets/media/git-how-it-works.mp4                                     ✓ reused from manimations/git_how_git_works_scene
 ├── data/jobs.json                                                        ✓ real, 31 roles
 ├── scripts/fetch_jobs.py, normalize.py, classify.py, deduplicate.py      ✓ built and run
 ├── sources/greenhouse.py, smartrecruiters.py                             ✓ built and run
-└── .github/workflows/update-jobs.yml                                     ← not built yet (daily schedule, tech spec §13)
+└── .github/workflows/update-jobs.yml                                     ✓ built — daily cron, auto-commits data/jobs.json if changed
 ```
 
 Note: as of this writing, `node_modules/` (Playwright, installed repeatedly for browser testing) and some `scratch_*` test files are sitting in the repo root — cleanup was requested once this session and the user declined that specific attempt, so they're intentionally left in place rather than force-removed. Worth clearing before any real `git add`/push (already covered by `.gitignore` for `node_modules`, but the `scratch_*` files are not).
+
+## 2026-08-25/27 session — Phase 0 closed, plus real fixes
+
+- **Tally form is live and verified end-to-end**: https://tally.so/r/GxA1Jj (form id `GxA1Jj`), all 8 fields match the locked spec exactly. Built directly via Tally's REST API since the public block-schema docs returned nothing usable — the schema was reverse-engineered from the API's own validation error messages (iterative probe requests). Embedded in `ask/index.html` via Tally's `embed.js`, `noscript` fallback, small de-emphasized "form not loading?" link below the form (an earlier version had a prominent link-out button *above* the form, which the user correctly flagged as pulling clicks away before people saw the form was already there). Verified with a real test submission via the Submissions API, then deleted.
+- **Skill-chain spotlight animation root-caused**: the real bug across two earlier "just slow it down" attempts was that the per-node stagger (260ms) was shorter than the CSS transition (0.5s) — nodes fired before the previous one settled. Fixed: stagger (700ms) now exceeds the transition (0.55s), and each card's display time scales with its own chain length.
+- **Learn-by-Seeing modules now auto-play on scroll** instead of requiring a "▶ Play" click — matches the career-card spotlight's existing auto-play pattern. Buttons remain for manual replay.
+- **DevOps roadmap page now explains its own structure**: added one-line captions above the 3-track section and the chain section stating explicitly why it's parallel-then-sequential — previously the structure existed with zero explanation and read as arbitrary.
+- **Footer styling locked**: keep it plain (current), the earlier "dark #15173C footer" idea from a review brief was not adopted.
+- **Open, not yet decided/built**: hero two-tone headline treatment, navbar/spacing fine-tuning, Learn-by-Seeing background tint (exact spec from the original brief is no longer reliably recoverable — confirm current heading copy with the user before changing headings, don't guess from memory). Resource/video links on roadmap nodes are a **user-confirmed "later"** item, not to be built proactively. Future paywall/gated-content idea flagged by the user — told them clearly this static-hosting setup (GitHub Pages, no backend) cannot truly gate content; real gating needs a backend/auth layer if that's pursued later.
