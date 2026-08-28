@@ -36,7 +36,7 @@
       { "id": "testing", "title": "Testing", "what": "Writing code that verifies your other code actually works.", "why": "The difference between \"it works on my machine\" and something a team can trust in production.", "learn": ["Unit tests", "Test coverage", "Mocking dependencies"] },
       { "id": "system-design", "title": "System Design", "what": "How to structure a larger application — services, scaling, trade-offs.", "why": "Senior interviews and real architecture decisions both live here.", "learn": ["Client-server basics", "Scaling (horizontal vs. vertical)", "Caching", "Trade-offs, not perfect answers"] },
       { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "A small full-stack application — a front end, an API, and a real database." },
-      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/", "subtitle": "You're ready to interview for Software Engineer roles." }
     ]
   },
   "devops": {
@@ -77,7 +77,7 @@
       { "id": "terraform", "title": "Terraform", "what": "Define infrastructure as code instead of clicking through a cloud console.", "why": "Reproducible, reviewable, versioned infrastructure — not tribal knowledge.", "learn": ["HCL syntax", "State management", "Modules"] },
       { "id": "kubernetes", "title": "Kubernetes", "what": "Orchestrate containers at scale.", "why": "For when a single Docker host isn't enough anymore.", "learn": ["Pods & deployments", "Services", "Scaling", "Helm basics"] },
       { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — not another tutorial completion.", "learn": [], "build": "A CI/CD pipeline for a real app, or a Terraform-provisioned cluster." },
-      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/", "subtitle": "You're ready to interview for DevOps Engineer roles." }
     ]
   },
   "embedded": {
@@ -118,7 +118,7 @@
       { "id": "debugging", "title": "Debugging", "what": "Finding out why embedded code is misbehaving, with far fewer tools than a normal application has.", "why": "No print statements to spare, sometimes no debugger at all — this is its own skill.", "learn": ["JTAG / SWD debugging", "Logic analyzers & oscilloscopes", "Reading a stack trace on constrained hardware"] },
       { "id": "testing", "title": "Testing", "what": "Verifying embedded software actually works — often on real hardware, not just in simulation.", "why": "A bug in embedded software can mean a real physical failure, not just a crashed app.", "learn": ["Unit testing on embedded targets", "Hardware-in-the-loop (HIL) basics", "MISRA-C awareness"] },
       { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "A small embedded project end to end — reading a sensor, driving an actuator, or a mini CAN-based system." },
-      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/", "subtitle": "You're ready to interview for Embedded Engineer roles." }
     ]
   },
   "ai-ml": {
@@ -159,7 +159,7 @@
       { "id": "pytorch", "title": "PyTorch", "what": "The most widely used deep learning framework in both research and industry.", "why": "Fluency here is close to a baseline expectation on ML job postings.", "learn": ["Tensors", "Building a model", "Training loops", "Loading real datasets"] },
       { "id": "mlops", "title": "MLOps", "what": "Getting a model from a notebook into something that actually runs reliably in production.", "why": "A model that only works in your notebook isn't a product — this is the gap most ML tutorials skip.", "learn": ["Model versioning", "Serving a model (API basics)", "Monitoring model performance over time"] },
       { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "An end-to-end ML project — real data, a trained model, actually serving predictions somewhere." },
-      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/", "subtitle": "You're ready to interview for AI/ML Engineer roles." }
     ]
   },
   "cloud": {
@@ -199,7 +199,7 @@
       { "id": "security", "title": "Security", "what": "Identity, access control, and network security in a cloud environment.", "why": "A misconfigured cloud environment is one of the most common real-world security failures — not optional knowledge.", "learn": ["IAM policies & least privilege", "Network security groups / firewalls", "Secrets management"] },
       { "id": "iac", "title": "IaC", "what": "Defining cloud infrastructure as code instead of clicking through a console.", "why": "Reproducible, reviewable, versioned infrastructure — the standard practice at any real scale.", "learn": ["Terraform or a provider-native tool", "State management", "Modules & reuse"] },
       { "id": "projects", "title": "Projects", "what": "Build something real, end to end.", "why": "This is what actually gets noticed on a CV — a working project beats a list of completed tutorials.", "learn": [], "build": "Provision real cloud infrastructure for a small project using IaC, not the console." },
-      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/" }
+      { "id": "interview-ready", "title": "Interview Ready", "final": true, "link": "../../interview/", "subtitle": "You're ready to interview for Cloud Engineer roles." }
     ]
   }
 }

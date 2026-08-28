@@ -277,7 +277,13 @@ h1, h2, h3, h4 {
 .platform-chip { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; font-weight: 600; padding: 0.45rem 0.9rem; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--text-soft); background: var(--surface); }
 
 /* ---------- Roadmap diagram (reference build: DevOps) ---------- */
-.roadmap-section-label { text-align: center; max-width: 500px; margin: 2rem auto 0; font-size: 0.85rem; color: var(--text-faint); }
+.roadmap-start-chip { display: flex; justify-content: center; margin-top: 2.2rem; }
+.roadmap-start-chip span {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
+  text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent);
+  border-radius: 999px; padding: 0.3rem 0.8rem;
+}
+.roadmap-section-label { text-align: center; max-width: 500px; margin: 0.6rem auto 0; font-size: 0.85rem; color: var(--text-faint); }
 .roadmap-tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; max-width: 620px; margin: 0.9rem auto 0; }
 @media (max-width: 620px) { .roadmap-tracks { grid-template-columns: 1fr; } }
 .roadmap-converge { display: flex; justify-content: center; margin: 0.6rem 0; color: var(--text-faint); font-size: 1.2rem; }
@@ -303,10 +309,14 @@ html:not(.js) .roadmap-node, .roadmap-node.is-visible { opacity: 1; transform: n
 }
 .roadmap-node.final .node-n { background: linear-gradient(135deg, var(--accent), var(--de-accent)); color: #fff; }
 .roadmap-node.final .label { font-weight: 700; }
+.roadmap-node.final .final-subtitle { margin: 0.5rem 0 0 2.8rem; font-size: 0.85rem; color: var(--text-soft); }
 .roadmap-node .label { font-weight: 600; font-size: 1rem; flex: 1; }
 .roadmap-node .chev { color: var(--text-faint); transition: transform 0.2s var(--ease); }
 .roadmap-node[aria-expanded="true"] .chev { transform: rotate(180deg); }
 .roadmap-connector { width: 1.5px; height: 1.6rem; background: var(--border-strong); }
+/* The connector leading into the finish line picks up the same gradient,
+   so the arrival is visible a beat before you reach it, not just at it. */
+.roadmap-chain > .roadmap-connector:nth-last-child(2) { width: 2px; background: linear-gradient(var(--border-strong), var(--accent)); }
 .roadmap-node-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.25s var(--ease); }
 .roadmap-node-detail.open { grid-template-rows: 1fr; }
 .roadmap-node-detail > div { overflow: hidden; }

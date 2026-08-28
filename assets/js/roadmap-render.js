@@ -10,9 +10,11 @@ function circledNum(n) { return CIRCLED[n - 1] || `${n}.`; }
 
 function nodeHTML(node, num, isTrack) {
   if (node.final) {
+    const subtitle = node.subtitle ? `<div class="final-subtitle">${node.subtitle}</div>` : "";
     return `
       <a class="roadmap-node final" href="${node.link}" style="text-decoration:none; display:block;">
         <div class="row"><span class="node-n">🎯</span><span class="label">${node.title}</span><span class="chev">→</span></div>
+        ${subtitle}
       </a>`;
   }
   const learnList = (node.learn && node.learn.length)
@@ -52,7 +54,8 @@ function liveRoadmapHTML(roadmap) {
     </section>
     <section class="section">
       <div class="wrap">
-        <p class="roadmap-section-label">Start with these ${roadmap.tracks.length} — learn them in any order, they don't depend on each other.</p>
+        <div class="roadmap-start-chip"><span>🚀 Start here</span></div>
+        <p class="roadmap-section-label">Pick any of these ${roadmap.tracks.length} first — learn them in any order, they don't depend on each other.</p>
         <div class="roadmap-tracks">${tracksHTML}</div>
         <div class="roadmap-converge">↓ once you're comfortable with all ${roadmap.tracks.length} ↓</div>
         <p class="roadmap-section-label">From here it's a straight line — each step needs the one before it.</p>
