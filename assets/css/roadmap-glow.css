@@ -27,7 +27,12 @@
 }
 
 .glow-page * { box-sizing: border-box; }
-.glow-page h3 { font-family: "Space Grotesk", "Inter", sans-serif; font-weight: 600; margin: 0; }
+/* The site's global h1-h4 rule sets color: var(--text), which is the
+   light-theme near-black — invisible on this dark surface. Every heading
+   in this scope needs its color pinned explicitly, not inherited. */
+.glow-page h1, .glow-page h2, .glow-page h3, .glow-page h4 {
+  font-family: "Space Grotesk", "Inter", sans-serif; font-weight: 600; margin: 0; color: var(--gp-text);
+}
 
 .glow-inner { max-width: 460px; margin: 0 auto; }
 
@@ -41,7 +46,7 @@
 
 .glow-order-note { text-align: center; color: var(--gp-text-faint); font-size: 12.5px; margin: 10px 0 0; }
 
-.glow-chain-wrap { position: relative; margin: 42px auto 0; max-width: 400px; }
+.glow-chain-wrap { position: relative; margin: 42px auto 0; max-width: 440px; }
 .glow-chain-wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
 .glow-path-bg { fill: none; stroke: var(--gp-border-soft); stroke-width: 2; stroke-linecap: round; }
 .glow-path-glow {
@@ -56,13 +61,14 @@
   opacity: 0.85; z-index: 1;
 }
 
-.glow-travel-dot {
-  position: absolute; top: 0; left: 0; width: 22px; height: 22px; border-radius: 50%; margin: -11px 0 0 -11px;
-  background: radial-gradient(circle, #ffffff 0%, var(--gp-accent-glow) 40%, transparent 72%);
-  box-shadow: 0 0 20px 8px var(--gp-accent-glow), 0 0 50px 20px rgba(124, 118, 234, 0.6), 0 0 90px 34px rgba(124, 118, 234, 0.28);
-  opacity: 0; pointer-events: none;
-  animation: glow-dot-throb 0.5s ease-in-out infinite;
-}
+/* Native SVG element (not an offset-path'd HTML div) so its position is
+   always in the exact same coordinate space as the path itself — no
+   scaling mismatch between the SVG's viewBox and its rendered CSS size. */
+#glow-travel-dot { pointer-events: none; transition: opacity 0.2s ease; }
+#glow-travel-dot .glow-dot-pulse { transform-box: fill-box; transform-origin: center; animation: glow-dot-throb 0.5s ease-in-out infinite; }
+#glow-travel-dot .glow-dot-halo-outer { fill: var(--gp-accent-glow); opacity: 0.22; filter: blur(7px); }
+#glow-travel-dot .glow-dot-halo-inner { fill: var(--gp-accent-glow); opacity: 0.55; filter: blur(2.5px); }
+#glow-travel-dot .glow-dot-core { fill: #ffffff; }
 @keyframes glow-dot-throb { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
 
 .glow-arrival-burst {
@@ -88,6 +94,7 @@
 .glow-node.ticked .glow-medallion { border-color: var(--gp-teal); box-shadow: 0 0 22px rgba(95, 176, 160, 0.4); opacity: 1; transform: scale(1); }
 .glow-node.pressed .glow-medallion { transform: scale(0.88); }
 .glow-node.final .glow-medallion { width: 66px; height: 66px; font-size: 27px; background: linear-gradient(135deg, var(--gp-accent), var(--gp-teal)); border-color: transparent; opacity: 0.7; }
+.glow-node.start .glow-medallion { width: 62px; height: 62px; font-size: 25px; }
 .glow-node.final.ticked .glow-medallion { opacity: 1; }
 
 .glow-node .glow-node-label {
@@ -147,7 +154,7 @@
 
 @media (max-width: 480px) {
   .glow-node { width: 92px; }
-  .glow-node .glow-node-label { font-size: 10.5px; }
+  .glow-node .glow-node-label { font-size: 10.5px; white-space: normal; max-width: 92px; line-height: 1.25; }
   .glow-medallion { width: 46px; height: 46px; font-size: 19px; }
 }
 

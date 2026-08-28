@@ -12,22 +12,25 @@
  * the fixed 7-node spline layout, and the outcome job-title list.
  */
 
-const GLOW_PATH_D = "M 100.0 55.0 C 120.0 65.0, 180.0 95.0, 220.0 115.0 C 260.0 135.0, 308.3 155.8, 340.0 175.0 C 371.7 194.2, 408.3 211.7, 410.0 230.0 C 411.7 248.3, 383.3 265.8, 350.0 285.0 C 316.7 304.2, 253.3 325.0, 210.0 345.0 C 166.7 365.0, 117.5 385.8, 90.0 405.0 C 62.5 424.2, 21.7 441.7, 45.0 460.0 C 68.3 478.3, 199.2 505.8, 230.0 515.0";
-const GLOW_VB_W = 435, GLOW_VB_H = 540;
+// Two perfectly horizontal 3-node rows, connected by a genuine looping
+// arc (with a dot marker at the apex) at each turn — matching the
+// reference's actual rhythm: straight row, loop, straight row, loop, final.
+const GLOW_PATH_D = "M 100 115 L 290 115 L 480 115 C 560 135, 560 275, 480 295 L 290 295 L 100 295 C 20 325, 20 445, 290 445";
+const GLOW_VB_W = 600, GLOW_VB_H = 470;
 const GLOW_WAYPOINTS = [
-  { left: 94.3, top: 42.6 },
-  { left: 10.3, top: 85.2 },
+  { left: 90.0, top: 43.6 },
+  { left: 10.6, top: 81.1 },
 ];
 // Fixed positions for exactly this 7-node shape: Foundations, Docker,
 // Cloud, CI/CD, Kubernetes, Projects, then the final outcome node.
 const GLOW_POSITIONS = [
-  { x: 100, y: 55 },
-  { x: 220, y: 115 },
-  { x: 340, y: 175 },
-  { x: 350, y: 285 },
-  { x: 210, y: 345 },
-  { x: 90, y: 405 },
-  { x: 230, y: 515 },
+  { x: 100, y: 115 },
+  { x: 290, y: 115 },
+  { x: 480, y: 115 },
+  { x: 480, y: 295 },
+  { x: 290, y: 295 },
+  { x: 100, y: 295 },
+  { x: 290, y: 445 },
 ];
 
 const GLOW_OUTCOME_JOBS = {
@@ -116,7 +119,7 @@ function glowPageHTML(roadmap) {
     .map((n, i) => {
       const pos = GLOW_POSITIONS[i];
       return `
-      <button class="glow-node${n.final ? " final" : ""}" data-idx="${i}" data-x="${pos.x}" data-y="${pos.y}">
+      <button class="glow-node${n.final ? " final" : ""}${i === 0 ? " start" : ""}" data-idx="${i}" data-x="${pos.x}" data-y="${pos.y}">
         <span class="glow-medallion"><span class="icon">${n.icon}</span></span>
         <span class="glow-node-label"><span class="glow-label-tick">✓</span>${n.title}</span>
       </button>`;
@@ -144,7 +147,7 @@ function glowPageHTML(roadmap) {
             <div class="glow-controls">
               <button class="glow-replay-btn" id="glow-replay-btn">↻ Replay the journey</button>
             </div>
-            <p class="glow-order-note">7 stops, not 10 — related tools are grouped under the skill they belong to, not hidden.</p>
+            <p class="glow-order-note">Related tools are grouped under the skill they belong to — press a stop to see everything it covers.</p>
 
             <div class="glow-detail-card" id="glow-detail-card"><button class="glow-close-detail" id="glow-close-detail" aria-label="Close">×</button><div id="glow-detail-body"></div></div>
 
@@ -158,8 +161,14 @@ function glowPageHTML(roadmap) {
                 </defs>
                 <path id="glow-path" class="glow-path-bg" d="${GLOW_PATH_D}" />
                 <path id="glow-path-glow" class="glow-path-glow" d="${GLOW_PATH_D}" pathLength="1" />
+                <g id="glow-travel-dot" opacity="0">
+                  <g class="glow-dot-pulse">
+                    <circle r="30" class="glow-dot-halo-outer"></circle>
+                    <circle r="16" class="glow-dot-halo-inner"></circle>
+                    <circle r="6" class="glow-dot-core"></circle>
+                  </g>
+                </g>
               </svg>
-              <div class="glow-travel-dot" id="glow-travel-dot"></div>
               ${waypointsHTML}
               <div class="glow-arrival-layer" id="glow-arrival-layer" style="position:absolute; inset:0;"></div>
               <div class="glow-chain-nodes" id="glow-chain-nodes">${nodesHTML}</div>
@@ -168,11 +177,10 @@ function glowPageHTML(roadmap) {
             <div class="glow-outcome-panel" id="glow-outcome-panel">
               <div class="glow-badge">🎯</div>
               <h3>${finalTitle} — Interview Ready</h3>
-              <p>Every step lit. This exact skill set is what these job titles actually ask for:</p>
+              <p>This exact skill set is what these job titles actually ask for:</p>
               <div class="glow-outcome-jobs">${jobsHTML}</div>
             </div>
 
-            <div class="glow-footnote"><p>Press any stop above to see what it actually teaches. Hit Replay to watch the full journey again.</p></div>
           </div>
         </div>
         <div class="nudge"><a href="../../" class="btn btn-outline">← Back to all paths</a></div>
@@ -242,15 +250,14 @@ function initGlowInteractions(roadmap) {
   }
 
   let played = false;
+  let rafId = null;
   function playJourney() {
+    if (rafId) cancelAnimationFrame(rafId);
     allNodeEls.forEach((n) => n.classList.remove("ticked"));
     outcomePanel.classList.remove("show");
     pathEl.style.transition = "none";
     pathEl.style.strokeDashoffset = "1";
-    dot.style.transition = "none";
     dot.style.opacity = "0";
-    dot.style.offsetPath = `path('${GLOW_PATH_D}')`;
-    dot.style.offsetDistance = "0%";
 
     if (reduceMotion) {
       allNodeEls.forEach((n) => n.classList.add("ticked"));
@@ -261,27 +268,37 @@ function initGlowInteractions(roadmap) {
 
     const travelDuration = 5200;
     const startDelay = 500;
+    const total = pathEl.getTotalLength();
+    const ticked = new Set();
 
     setTimeout(() => {
-      dot.style.opacity = "1";
-      dot.style.transition = `offset-distance ${travelDuration}ms linear, opacity 0.2s ease`;
       pathEl.style.transition = `stroke-dashoffset ${travelDuration}ms linear`;
-      void dot.offsetWidth;
-      dot.style.offsetDistance = "100%";
       pathEl.style.strokeDashoffset = "0";
+      dot.style.opacity = "1";
+
+      const start = performance.now();
+      function frame(now) {
+        const frac = Math.min((now - start) / travelDuration, 1);
+        const pt = pathEl.getPointAtLength(frac * total);
+        dot.setAttribute("transform", `translate(${pt.x}, ${pt.y})`);
+
+        nodeFractions.forEach((item) => {
+          if (!ticked.has(item.el) && frac >= item.frac) {
+            ticked.add(item.el);
+            item.el.classList.add("ticked");
+            spawnBurst(item.el);
+          }
+        });
+
+        if (frac < 1) {
+          rafId = requestAnimationFrame(frame);
+        } else {
+          dot.style.opacity = "0";
+          outcomePanel.classList.add("show");
+        }
+      }
+      rafId = requestAnimationFrame(frame);
     }, startDelay);
-
-    nodeFractions.forEach((item) => {
-      setTimeout(() => {
-        item.el.classList.add("ticked");
-        spawnBurst(item.el);
-      }, startDelay + item.frac * travelDuration);
-    });
-
-    setTimeout(() => {
-      dot.style.opacity = "0";
-      outcomePanel.classList.add("show");
-    }, startDelay + travelDuration + 150);
   }
 
   document.getElementById("glow-replay-btn").addEventListener("click", playJourney);
